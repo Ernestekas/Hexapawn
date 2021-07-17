@@ -27,6 +27,7 @@ namespace Hexapawn
             board.A123 = new List<Panel>() { A1, A2, A3 };
             board.B123 = new List<Panel>() { B1, B2, B3 };
             board.C123 = new List<Panel>() { C1, C2, C3 };
+            this.Icon = Hexapawn.Properties.Resources.Hexapawn_Ic;
 
             AllData.DataContainer = Database;
             AllData.GameTable = board;
@@ -35,7 +36,7 @@ namespace Hexapawn
             {
                 c.MouseClick += new MouseEventHandler(Panel_MouseClick);
             }
-
+            LastWinTALbl.Text = "0";
             TurnLbl.Text = "0";
         }
 
@@ -101,11 +102,6 @@ namespace Hexapawn
         private void Panel_MouseClick(object sender, MouseEventArgs e)
         {
             // Moves selected piece.
-            // Conditions to move a piece:
-            // 1. It's players turn.
-            // 2. Piece is selected.
-            // 3.1. Selected cell empty and is on same column.
-            // 3.2. Selected cell contains oponents piece and is diagonaly from selected piece.
             Panel cp = (Panel)sender;
             
             if(int.Parse(TurnLbl.Text) % 2 != 0)
@@ -292,6 +288,7 @@ namespace Hexapawn
                 {
                     // White pawns player wins. Decrease black pawn last move reward by one.
                     WVLbl.Text = (int.Parse(WVLbl.Text) + 1).ToString();
+                    LastWinTALbl.Text = "0";
                     ManageRewards_1(false);
                     MessageBox.Show("White WINS!");
                 }
@@ -303,6 +300,7 @@ namespace Hexapawn
                 {
                     // Black pawns player wins. Increase last moves reward by one.
                     BVLbl.Text = (int.Parse(BVLbl.Text) + 1).ToString();
+                    LastWinTALbl.Text = (int.Parse(LastWinTALbl.Text) + 1).ToString();
                     ManageRewards_1(true);
                     MessageBox.Show("Black WINS!");
                 }
@@ -589,9 +587,10 @@ namespace Hexapawn
                 }
             }
         }
-        private void TestBtn_Click(object sender, EventArgs e)
+
+        private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(AllData.Turns[0].Variants.Count.ToString());
+            
         }
     }
 }

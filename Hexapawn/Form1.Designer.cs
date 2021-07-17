@@ -51,12 +51,13 @@
             this.Database = new System.Windows.Forms.Panel();
             this.TurnLbl = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.TestBtn = new System.Windows.Forms.Button();
             this.DebugLbl = new System.Windows.Forms.Label();
             this.C1Lbl = new System.Windows.Forms.Label();
             this.C2Lbl = new System.Windows.Forms.Label();
             this.BVLbl = new System.Windows.Forms.Label();
             this.WVLbl = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.LastWinTALbl = new System.Windows.Forms.Label();
             this.TurnInfoGB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -197,7 +198,7 @@
             // 
             // NewGame
             // 
-            this.NewGame.Location = new System.Drawing.Point(13, 13);
+            this.NewGame.Location = new System.Drawing.Point(75, 26);
             this.NewGame.Margin = new System.Windows.Forms.Padding(0);
             this.NewGame.Name = "NewGame";
             this.NewGame.Size = new System.Drawing.Size(75, 42);
@@ -278,16 +279,6 @@
             this.label7.Text = "Turn:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TestBtn
-            // 
-            this.TestBtn.Location = new System.Drawing.Point(94, 13);
-            this.TestBtn.Name = "TestBtn";
-            this.TestBtn.Size = new System.Drawing.Size(75, 42);
-            this.TestBtn.TabIndex = 17;
-            this.TestBtn.Text = "Test";
-            this.TestBtn.UseVisualStyleBackColor = true;
-            this.TestBtn.Click += new System.EventHandler(this.TestBtn_Click);
-            // 
             // DebugLbl
             // 
             this.DebugLbl.Location = new System.Drawing.Point(12, 258);
@@ -299,7 +290,7 @@
             // 
             // C1Lbl
             // 
-            this.C1Lbl.Location = new System.Drawing.Point(12, 281);
+            this.C1Lbl.Location = new System.Drawing.Point(9, 281);
             this.C1Lbl.Name = "C1Lbl";
             this.C1Lbl.Size = new System.Drawing.Size(58, 37);
             this.C1Lbl.TabIndex = 19;
@@ -308,7 +299,7 @@
             // 
             // C2Lbl
             // 
-            this.C2Lbl.Location = new System.Drawing.Point(76, 281);
+            this.C2Lbl.Location = new System.Drawing.Point(73, 281);
             this.C2Lbl.Name = "C2Lbl";
             this.C2Lbl.Size = new System.Drawing.Size(58, 37);
             this.C2Lbl.TabIndex = 20;
@@ -317,7 +308,7 @@
             // 
             // BVLbl
             // 
-            this.BVLbl.Location = new System.Drawing.Point(12, 318);
+            this.BVLbl.Location = new System.Drawing.Point(9, 318);
             this.BVLbl.Name = "BVLbl";
             this.BVLbl.Size = new System.Drawing.Size(58, 23);
             this.BVLbl.TabIndex = 21;
@@ -326,24 +317,43 @@
             // 
             // WVLbl
             // 
-            this.WVLbl.Location = new System.Drawing.Point(76, 318);
+            this.WVLbl.Location = new System.Drawing.Point(73, 318);
             this.WVLbl.Name = "WVLbl";
             this.WVLbl.Size = new System.Drawing.Size(58, 23);
             this.WVLbl.TabIndex = 22;
             this.WVLbl.Text = "0";
             this.WVLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(12, 341);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(107, 23);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Last Win Turns Ago:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LastWinTALbl
+            // 
+            this.LastWinTALbl.Location = new System.Drawing.Point(125, 341);
+            this.LastWinTALbl.Name = "LastWinTALbl";
+            this.LastWinTALbl.Size = new System.Drawing.Size(58, 23);
+            this.LastWinTALbl.TabIndex = 24;
+            this.LastWinTALbl.Text = "0";
+            this.LastWinTALbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(851, 558);
+            this.Controls.Add(this.LastWinTALbl);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.WVLbl);
             this.Controls.Add(this.BVLbl);
             this.Controls.Add(this.C2Lbl);
             this.Controls.Add(this.C1Lbl);
             this.Controls.Add(this.DebugLbl);
-            this.Controls.Add(this.TestBtn);
             this.Controls.Add(this.TurnInfoGB);
             this.Controls.Add(this.NewGame);
             this.Controls.Add(this.label6);
@@ -364,7 +374,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Hexapawn";
             this.TurnInfoGB.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -394,13 +404,14 @@
         private System.Windows.Forms.Panel Database;
         private System.Windows.Forms.Label LBpawnMoveLbl;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button TestBtn;
         private System.Windows.Forms.Label DebugLbl;
         private System.Windows.Forms.Label LBpawnMove1Lbl;
         private System.Windows.Forms.Label C1Lbl;
         private System.Windows.Forms.Label C2Lbl;
         private System.Windows.Forms.Label BVLbl;
         private System.Windows.Forms.Label WVLbl;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label LastWinTALbl;
     }
 }
 
