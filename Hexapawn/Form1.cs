@@ -257,7 +257,7 @@ namespace Hexapawn
             }
         }
 
-        private void EndTurn()
+        private void EndTurn(bool surrender = false)
         {
             bool win = false;
             board.Turn += 1;
@@ -296,24 +296,35 @@ namespace Hexapawn
             else
             {
                 win = CheckVictory(false);
-                if(win)
+                if(surrender)
                 {
-                    // Black pawns player wins. Increase last moves reward by one.
-                    BVLbl.Text = (int.Parse(BVLbl.Text) + 1).ToString();
-                    LastWinTALbl.Text = (int.Parse(LastWinTALbl.Text) + 1).ToString();
-                    ManageRewards_1(true);
-                    MessageBox.Show("Black WINS!");
+                    // AI surrender. White player wins.
+                    WVLbl.Text = (int.Parse(WVLbl.Text) + 1).ToString();
+                    LastWinTALbl.Text = "0";
+                    ManageRewards_1(false, true);
+                    MessageBox.Show("White WINS!");
                 }
                 else
                 {
-                    // End turn for AI.
-                    foreach (Pawn p in gamePieces.White)
+                    if (win)
                     {
-                        p.YourTurn = true;
+                        // Black pawns player wins. Increase last moves reward by one.
+                        BVLbl.Text = (int.Parse(BVLbl.Text) + 1).ToString();
+                        LastWinTALbl.Text = (int.Parse(LastWinTALbl.Text) + 1).ToString();
+                        ManageRewards_1(true);
+                        MessageBox.Show("Black WINS!");
                     }
-                    foreach (Pawn p in gamePieces.Black)
+                    else
                     {
-                        p.YourTurn = false;
+                        // End turn for AI.
+                        foreach (Pawn p in gamePieces.White)
+                        {
+                            p.YourTurn = true;
+                        }
+                        foreach (Pawn p in gamePieces.Black)
+                        {
+                            p.YourTurn = false;
+                        }
                     }
                 }
             }
@@ -328,8 +339,10 @@ namespace Hexapawn
             Pawn selectedPawn = new Pawn();
             Panel selectedMove = new Panel();
             List<int> allIntervals = new List<int>();
+            List<int> allrewards = new List<int>();
             bool turnExists = false;
             bool variantExist = false;
+            bool surrender = false;
             int rnd = 0;
             
             // Pickup data.
@@ -352,8 +365,6 @@ namespace Hexapawn
             selectedTurn = AllData.Turns.Where(x => x.Turn == board.Turn).Single();
 
             // Check variants.
-            
-            // Game pieces sent to compare variant is correct.
             variantExist = selectedTurn.CompareVariantWithTable(gamePieces);
             if (variantExist)
             {
@@ -364,7 +375,6 @@ namespace Hexapawn
                 selectedTurn.CreateNewVariant(gamePieces, Database.Controls.OfType<Panel>().ToList());
                 selectedTurn.CompareVariantWithTable(gamePieces);
                 selectedVariant = selectedTurn.SelectedVariant;
-
             }
             
             // Write rewards to black pawns and calculate reward intervals.
@@ -388,14 +398,19 @@ namespace Hexapawn
             }
 
             gamePieces.CreateRewardIntervals();
-            List<int> allrewards = new List<int>();
+            
             // Choose a move.
             foreach(Pawn p in gamePieces.Black)
             {
                 allIntervals.AddRange(p.MovesRewardsIntervals);
                 allrewards.AddRange(p.MovesRewards);
             }
-            
+
+            if(allrewards.Count == allrewards.Where(x => x == 0).Count())
+            {
+                surrender = true;
+            }
+
             rnd = GenerateRandomNumber(1, allIntervals.Max());
             foreach (Pawn p in gamePieces.Black)
             {
@@ -424,7 +439,7 @@ namespace Hexapawn
                 AllData.LastMoveID = selectedTurn.TurnName + "-" + selectedVariant.Name + "-" + selectedPawn.Name + "-" + selectedMove.Name;
             }
             DebugLbl.Text += "(" + selectedPawn.Name + "-" + selectedMove.Name + ") ";
-            EndTurn();
+            EndTurn(surrender);
         }
         private int GenerateRandomNumber(int min, int max)
         {
@@ -485,9 +500,10 @@ namespace Hexapawn
             {
                 victory = true;
             }
+
             return victory;
         }
-        private void ManageRewards_1(bool increaseReward)
+        private void ManageRewards_1(bool increaseReward, bool surrender = false)
         {
             List<bool> bpZero = new List<bool>();
             List<string> lboMoveID = new List<string>();
@@ -497,11 +513,7 @@ namespace Hexapawn
             DataGridViewCell rewardCell = null;
             List<string> lastMoveID = AllData.LastMoveID.Split('-').ToList();
             
-            // Get variant.
-            DataGridView selectedVariant = AllData.Turns
-                .Where(x => x.TurnName == lastMoveID[0])
-                .Single().Variants.Where(y => y.Variant.Name == lastMoveID[1]).Single().Variant;
-
+            
             if(AllData.LastButOneMoveId.Count() > 0)
             {
                 lboMoveID = AllData.LastButOneMoveId.Split('-').ToList();
@@ -509,8 +521,18 @@ namespace Hexapawn
                     .Where(x => x.TurnName == lboMoveID[0])
                     .Single().Variants.Where(y => y.Variant.Name == lboMoveID[1]).Single().Variant;
             }
+            if(surrender)
+            {
+                lastMoveID = lboMoveID;
+
+            }
+            // Get variant.
+            DataGridView selectedVariant = AllData.Turns
+                .Where(x => x.TurnName == lastMoveID[0])
+                .Single().Variants.Where(y => y.Variant.Name == lastMoveID[1]).Single().Variant;
+
             // Get cell of a reward to change.
-            foreach(DataGridViewRow row in selectedVariant.Rows)
+            foreach (DataGridViewRow row in selectedVariant.Rows)
             {
                 if(row.Cells[0].Value != null)
                 {
@@ -561,7 +583,7 @@ namespace Hexapawn
             {
                 // All variant rewards equals to zero. Change last but one selected move reward.
                 // Get cell to change.
-                foreach(DataGridViewRow row in lboSelectedVariant.Rows)
+                foreach (DataGridViewRow row in lboSelectedVariant.Rows)
                 {
                     // Check if this row isn't empty.
                     if(row.Cells[0].Value != null)
@@ -586,11 +608,6 @@ namespace Hexapawn
                     }
                 }
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
         }
     }
 }

@@ -39,17 +39,13 @@ namespace Hexapawn.Objects.Database
                 int r = newVariant.Rows.Add();
                 newVariant.Rows[r].Cells[0].Value = p.Color[0].ToString() + p.Name;
                 newVariant.Rows[r].Cells[1].Value = p.Possition.Name;
-                
                 if(p.Color == "black")
                 {
                     for (int cell = 2; cell < p.PossibleMoves.Count + 2; cell++)
                     {
                         p.MovesRewards.Add(1);
-                        // MessageBox.Show("Pawn: " + p.Name + " PM: " + p.PossibleMoves.Count.ToString() + " PR: " + p.MovesRewards.Count.ToString());
                         newVariant.Rows[r].Cells[cell].Value = p.PossibleMoves[cell - 2].Name;
                         newVariant.Rows[r].Cells[cell + 3].Value = p.MovesRewards[cell - 2];
-                        // MessageBox.Show(p.MovesRewards[cell - 2].ToString() + " Pawn: " + p.Name + " Moves Rewards: " + p.MovesRewards.Count.ToString());
-                        
                     }
                 }
             }
