@@ -21,6 +21,7 @@ namespace Hexapawn
         public Form1()
         {
             InitializeComponent();
+            Welcome w = new Welcome();
             board.ABC1 = new List<Panel>() { A1, B1, C1 };
             board.ABC2 = new List<Panel>() { A2, B2, C2 };
             board.ABC3 = new List<Panel>() { A3, B3, C3 };
@@ -38,6 +39,8 @@ namespace Hexapawn
             }
             LastWinTALbl.Text = "0";
             TurnLbl.Text = "0";
+            w.ShowDialog();
+            
         }
 
         private void NewGame_Click(object sender, EventArgs e)
@@ -302,7 +305,7 @@ namespace Hexapawn
                     WVLbl.Text = (int.Parse(WVLbl.Text) + 1).ToString();
                     LastWinTALbl.Text = "0";
                     ManageRewards_1(false, true);
-                    MessageBox.Show("White WINS!");
+                    MessageBox.Show("Opponent surrenders! White WINS!");
                 }
                 else
                 {
