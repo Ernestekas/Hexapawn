@@ -612,5 +612,10 @@ namespace Hexapawn
                 }
             }
         }
+
+        //private void DebugLbl_Click(object sender, EventArgs e)
+        //{
+
+        //}
     }
 }

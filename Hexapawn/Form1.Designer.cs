@@ -285,7 +285,6 @@
             this.DebugLbl.Name = "DebugLbl";
             this.DebugLbl.Size = new System.Drawing.Size(174, 23);
             this.DebugLbl.TabIndex = 18;
-            this.DebugLbl.Text = "label8";
             this.DebugLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // C1Lbl

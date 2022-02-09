@@ -110,7 +110,6 @@
     <EmbeddedResource Include="Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Hexapawn_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -125,6 +124,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Readme.md" />
     <None Include="Resources\Pawn_Black.png" />
   </ItemGroup>
   <ItemGroup>
